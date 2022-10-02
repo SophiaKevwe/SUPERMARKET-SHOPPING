@@ -1,4 +1,4 @@
-#CLASSWORK(GENESIS SUPERMARKET)
+#(GENESIS SUPERMARKET)
 print("Welcome to Genesis Pizza Delivery")
 print("SMALL SIZE = N1500 \n-PEPPERONI = N200 \nMEDIUM SIZE = N2000 \n-PEPPERONI = N300 \nLARGE SIZE = N2500 \n-PEPPERONI = N300 \nEXTRA CHEESE = N100")
 sizep = input("What size of pizza do you want, S, M or L :")
