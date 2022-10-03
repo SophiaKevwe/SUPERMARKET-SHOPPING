@@ -1,1 +1,94 @@
+from DATABASE import GENESIS_DATABASE as gdb
+
+
+print("Welcome to GENESIS DATABASE")
+print("Please login")
+name = input("Enter your name: ")
+password = input("Enter your password: ")
+print(f"Welcome {name.upper()}!")
+
+# gdb.createn("PROFILE")
+tab = gdb.alltables()
+if "PROFILE" in tab:
+    pass
+else:
+    gdb.createn("PROFILE")
+
+# print(gdb.view_prof())
+# prof = gdb.view_prof()
+# for x in prof:
+#     if x[1:] == {name.upper(), password}:
+#         pass
+#     else:
+#         gdb.insertcus(name.upper(), password)
+# print(prof)
+# with open("GENESIS DATABASE PROFILE FILE.txt", "w") as file:
+#     file.write("*-DATABASE PROFILES-* \n")
+#     for x in prof:
+#         file.write(f"{str(x)}, \n")
+
+# CHECK IF THE NAME IS ALREADY IN DATABASE AND VERIFY THE PASSWORD
+def question():
+    kkk = input("""
+    What would you like to do among these options?
+    Enter V to view the order database
+    Enter VT to view the database tables
+    Enter D to delete a customer's record
+    Enter DP to delete a table
+    Enter T to get the total price of customers orders
+    Enter M to get the maximum order price
+    Enter N to get the minimum order price
+    Enter A to get the average of the order prices
+    Enter C to get the total number of orders
+    ENTER: """)
+    return kkk
+
+
+
+def choic(choice):
+    if choice.upper() == "V":
+        print(gdb.view_all())
+    elif choice.upper() == "VT":
+        print(gdb.alltables())
+    elif choice.upper() == "D":
+        id = int(input("Enter the id of the customer's record to be deleted: "))
+        gdb.delete(id)
+        ch = input("Do you wish to see the the updated database: ")
+        if ch.upper() == "YES":
+            print(gdb.view_all())
+    elif choice.upper() == "DP":
+        id = input("Enter the name of the table to be deleted: ")
+        gdb.drop(id)
+        ch = input("Do you wish to see the the updated database tables: ")
+        if ch.upper() == "YES":
+            print(gdb.alltables())
+    elif choice.upper() == "T":
+        t = gdb.totalrow()[0]
+        print(f"The total price of customers orders = {t}")
+    elif choice.upper() == "M":
+        m = gdb.maxrow()[0]
+        print(f"The maximum order price = {m}")
+    elif choice.upper() == "N":
+        mn = gdb.minrow()[0]
+        print(f"The minimum order price = {mn}")
+    elif choice.upper() == "A":
+        aa = gdb.avgrow()[0]
+        print(f"The average of the order prices = {aa}")
+    elif choice.upper() == "C":
+        cc = gdb.countord()[0]
+        print(f"The total number of orders = {cc}")
+    else:
+        print("Invalid Input")
+        question()
+
+def main():
+    choice = question()
+    choic(choice)
+    end = input("Do you wish to carry out any other action YES/NO: ")
+    if end.upper() == "YES":
+        main()
+    else:
+        print("Thank you for your time.")
+
+main()
 
