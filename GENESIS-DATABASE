@@ -1,0 +1,194 @@
+import sqlite3 as sql3
+from os.path import exists
+file_exists = exists("GENESIS.db")
+
+def create():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS orders (ID INTEGER PRIMARY KEY,  NAME TEXT, PIZZASIZE TEXT, PEPPERONI TEXT, CHEESE TEXT, TOTAL REAL)")
+    conn.commit()
+    conn.close()
+
+def menu():
+    order = ["SMALL SIZE = N1500------PEPPERONI = N200", "MEDIUM SIZE = N2000------PEPPERONI = N300",
+             "LARGE SIZE = N2500------PEPPERONI = N300", "EXTRA CHEESE = N100"]
+    return order
+
+
+def update(id, pizzasze, pepp, chee, total):
+    conn = sql3.connect('GENESIS.db')
+    cursor = conn.cursor()
+    cursor.execute(f'UPDATE orders SET PIZZASIZE={pizzasze}, PEPPERONI={pepp}, CHEESE={chee}, TOTAL={total}, WHERE ID={id}')
+    conn.commit()
+    conn.close()
+def createn(name):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {name} (ID INTEGER PRIMARY KEY,  NAME TEXT, PASSWORD TEXT)")
+    conn.commit()
+    conn.close()
+
+def insert(namee, sizep, add_pep, extra_cheese, total):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"INSERT INTO orders (NAME, PIZZASIZE, PEPPERONI, CHEESE, TOTAL) VALUES('{namee.upper()}', '{sizep.upper()}', '{add_pep.upper()}', '{extra_cheese.upper()}', '{int(total)}')")
+    conn.commit()
+    conn.close()
+
+
+def insertcus(namee, password):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"INSERT INTO PROFILE (NAME, PASSWORD) VALUES('{namee.upper()}', '{password}')")
+    conn.commit()
+    conn.close()
+
+def delete(ID):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"DELETE FROM orders WHERE ID = '{ID}'")
+    conn.commit()
+    conn.close()
+
+def view_all():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM orders")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def view_prof():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM PROFILE")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def view_limit():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM orders LIMIT 3")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def view_name(name):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM orders WHERE NAME == '{name}'")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def view_range(x, y):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM orders WHERE TOTAL BETWEEN {x} AND {y}")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def view_names(name):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM orders WHERE NAME LIKE '%{name}%'")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def view_spec(spec1, spec2):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM customers_order WHERE pizza IN ('{spec1}', '{spec2}')")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def drop(tablename):
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute(f"DROP TABLE {tablename}")
+    conn.commit()
+    conn.close()
+
+def totalrow():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT SUM(TOTAL) FROM orders")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+def maxrow():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT MAX(TOTAL) FROM orders")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def minrow():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT MIN(TOTAL) FROM orders")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def avgrow():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT AVG(TOTAL) FROM orders")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def countord():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM orders")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+def alltables():
+    conn = sql3.connect("GENESIS.db")
+    cursor = conn.cursor()
+    cursor. execute("SELECT name FROM sqlite_master WHERE type='table';")
+    rows = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return rows
+
+
+if file_exists:
+    pass
+else:
+    create()
+
+
